@@ -19,4 +19,4 @@ make dev
 http://localhost:9090
 ```
 # **Set up the user**
-![Default Branch-Protection Template](src/main/resources/register.png?raw=true "Template")
+![register the user](data-snapshots-auth/src/main/resources/register.png?raw=true "Template")
