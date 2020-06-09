@@ -8,8 +8,8 @@ chmod +x /usr/local/bin/docker-compose
 
 - setup env as below
 ```.env
-git clone
-cd name
+git clone https://github.com/dimmonn/data-snapshots.git
+cd data-snapshots
 make setup
 make install
 make dev
