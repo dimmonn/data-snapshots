@@ -1,0 +1,27 @@
+version: '3'
+services:
+  dev:
+    image: node:11
+    volumes:
+      - nodemodules:/usr/src/service/node_modules
+      - ./data-snapshots-front:/usr/src/service
+    environment:
+      - NODE_ENV=development
+    working_dir: /usr/src/service
+    command: npm run serve -- --port 3000
+    ports:
+      - 9090:3000
+  auth:
+    build:
+      context: ./data-snapshots-auth
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8080"
+volumes:
+  nodemodules:
+    external: true
+networks:
+  esnet:
+    external: true
+  dockernet:
+    external: true
