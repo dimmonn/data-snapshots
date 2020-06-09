@@ -39,7 +39,7 @@
         window.rr = this;
 
         if (this.input.username != "" && this.input.password != "") {
-          this.axios.post('http://auth:8080/login',
+          this.axios.post('http://localhost:8083/login',
 
               {
                 username: this.input.username,
