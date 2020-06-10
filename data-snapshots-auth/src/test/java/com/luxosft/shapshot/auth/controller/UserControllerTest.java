@@ -2,11 +2,8 @@ package com.luxosft.shapshot.auth.controller;
 
 
 import static org.junit.Assert.assertTrue;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.luxosft.shapshot.auth.model.AuthUser;
 import com.luxosft.shapshot.auth.repository.AuthUserRepository;
-import com.luxosft.shapshot.auth.repository.EntryRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
