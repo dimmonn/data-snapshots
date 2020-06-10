@@ -1,4 +1,4 @@
-package com.luxosft.shapshot;
+package com.luxosft.shapshot.basic;
 
 import org.junit.jupiter.api.Test;
 

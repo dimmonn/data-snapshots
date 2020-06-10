@@ -1,4 +1,4 @@
-package com.luxosft.shapshot;
+package com.luxosft.shapshot.basic;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

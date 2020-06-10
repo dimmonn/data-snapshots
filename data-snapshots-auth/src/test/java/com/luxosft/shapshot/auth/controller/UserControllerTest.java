@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.luxosft.shapshot.auth.model.AuthUser;
 import com.luxosft.shapshot.auth.repository.AuthUserRepository;
 import com.luxosft.shapshot.auth.repository.EntryRepository;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,6 +38,10 @@ public class UserControllerTest {
     mvc.perform(MockMvcRequestBuilders.post("/users/sign-up")
         .contentType(MediaType.APPLICATION_JSON_VALUE)
         .content(body));
+  }
+  @After
+  public void tearDown() {
+    authUserRepository.deleteAll();
   }
 
   @Test
