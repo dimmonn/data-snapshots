@@ -18,7 +18,6 @@
 </template>
 <script>
   import {mdbInput, mdbBtn} from 'mdbvue';
-  import App from "../App";
 
   export default {
     name: 'Register',
@@ -40,21 +39,18 @@
       register() {
         window.rr = this;
 
-        if (this.input.password != this.input.password_confirm) {
+        if (this.input.password !== this.input.password_confirm) {
           this.$toast.error("passwords do not match", {
             timeout: 4000
           });
 
-        } else if (this.input.username != "" && this.input.password != "") {
+        } else if (this.input.username !== "" && this.input.password !== "") {
           this.axios.post('http://localhost:8083/users/sign-up', {
             username: this.input.username,
             password: this.input.password
           })
           .then(response => {
-            console.log(response);
-            console.log(App.data().authenticated)
             this.$router.push('/login');
-
           })
           .catch((error) => {
             console.log(error);

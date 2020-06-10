@@ -7,11 +7,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.luxosft.shapshot.auth.exceptions.BrokenFileException;
+import com.luxosft.shapshot.auth.repository.AuthUserRepository;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
+import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -43,9 +47,12 @@ public class FileUploadControllerTest {
   private String test_upload_1;
   private byte[] large_file;
   private byte[] wrongType;
-
+  private String expected;
   @Rule
   public ExpectedException expectedException = ExpectedException.none();
+  @Autowired
+  private AuthUserRepository authUserRepository;
+
 
   @Before
   public void beforeClass() throws Exception {
@@ -56,15 +63,27 @@ public class FileUploadControllerTest {
         .andExpect(status().isCreated()).andReturn();
     ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.post("/login").content(body));
     token = resultActions.andReturn().getResponse().getHeader("Authorization");
-    test_upload_1 = IOUtils.toString(
-        new FileInputStream("src/test/resources/test_upload_1.txt"), StandardCharsets.UTF_8
-    );
-    large_file = IOUtils.toByteArray(
-        new FileInputStream("src/test/resources/large_file.txt")
-    );
-    wrongType = IOUtils.toByteArray(
-        new FileInputStream("src/test/resources/wrong_type_file.pdf")
-    );
+    try (InputStream ioFile = new FileInputStream("src/test/resources/test_upload_1.txt");
+        InputStream ioLarge = new FileInputStream("src/test/resources/large_file.txt");
+        InputStream ioWrongFormat = new FileInputStream("src/test/resources/wrong_type_file.pdf");
+        InputStream ioResultFile = new FileInputStream(
+            "src/test/resources/test_upload_1_result.json")) {
+      test_upload_1 = IOUtils.toString(
+          ioFile, StandardCharsets.UTF_8
+      );
+      large_file = IOUtils.toByteArray(
+          ioLarge
+      );
+      wrongType = IOUtils.toByteArray(
+          ioWrongFormat
+      );
+      expected = IOUtils.toString(ioResultFile, StandardCharsets.UTF_8);
+    }
+  }
+
+  @After
+  public void tearDown() {
+    authUserRepository.deleteAll();
   }
 
   @Test
@@ -82,10 +101,6 @@ public class FileUploadControllerTest {
             .header("Authorization", token))
         .andExpect(status().isCreated()).andReturn().getResponse()
         .getContentAsString(Charset.defaultCharset());
-    String expected = IOUtils.toString(
-        new FileInputStream("src/test/resources/test_upload_1_result.json"),
-        StandardCharsets.UTF_8
-    );
     assertEquals(
         expected.replaceAll(
             System.lineSeparator(), ""
@@ -101,13 +116,14 @@ public class FileUploadControllerTest {
             "file",
             "large_file.txt",
             MediaType.TEXT_PLAIN_VALUE, large_file);
-mvc.perform(
+    mvc.perform(
         multipart("/files/upload-file/")
             .file(file)
             .accept(MediaType.APPLICATION_JSON)
             .header("Authorization", token)).
         andExpect(content().string("test"));
   }
+
   @Test
   public void wrongTypeFile() throws Exception {
     expectedException.expectCause(isA(BrokenFileException.class));

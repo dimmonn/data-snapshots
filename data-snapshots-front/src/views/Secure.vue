@@ -50,8 +50,6 @@
           }
         })
         .then(response => {
-          console.log(response);
-          window.oo = response
           let tmp = response.data;
           tmp.forEach(elem => {
                 let item = [elem.id, elem.name, elem.description, elem.timestamp];
@@ -80,7 +78,6 @@
         }
       },
       removeItem() {
-        console.log(this.number)
         this.axios.delete("http://localhost:8083/files/entries/" + this.number, {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -101,12 +98,9 @@
           )
         })
         .catch(error => {
-          window.tt = error;
-
-          if (typeof error.response !== 'undefined' && new String(
-              error.response.data.message).valueOf() ==
+          if (typeof error.response !== 'undefined' && String(
+              error.response.data.message).valueOf() ===
               "Access Denied") {
-            console.log(error.response.data.message)
             this.$router.push('/login');
           } else if (typeof typeof error.response !== 'undefined') {
             console.log("dd  " + error.response.data.message);

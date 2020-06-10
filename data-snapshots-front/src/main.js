@@ -14,15 +14,15 @@ import { BInputGroupPrepend } from 'bootstrap-vue'
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 
-Vue.use(ButtonPlugin)
-Vue.component('b-form-input', BFormInput)
-Vue.component('b-input-group', BInputGroup)
-Vue.component('b-input-group-prepend', BInputGroupPrepend)
+Vue.use(ButtonPlugin);
+Vue.component('b-form-input', BFormInput);
+Vue.component('b-input-group', BInputGroup);
+Vue.component('b-input-group-prepend', BInputGroupPrepend);
 
-Vue.component('b-card', BCard)
-Vue.component('b-card-text', BCard)
-Vue.component('b-card-group', BCard)
-Vue.component('b-link', BCard)
+Vue.component('b-card', BCard);
+Vue.component('b-card-text', BCard);
+Vue.component('b-card-group', BCard);
+Vue.component('b-link', BCard);
 Vue.use(Toast);
 
 Vue.use(VueAxios, axios);
@@ -31,4 +31,4 @@ new Vue({
   render: function (h) {
     return h(App)
   }
-}).$mount('#app')
+}).$mount('#app');

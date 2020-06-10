@@ -5,6 +5,7 @@ import com.luxosft.shapshot.auth.model.Entry;
 import com.luxosft.shapshot.auth.model.FileUploadWrapper;
 import com.luxosft.shapshot.auth.repository.EntryRepository;
 import com.luxosft.shapshot.auth.validator.EntryValidation;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -51,10 +52,11 @@ public class FileUploadController {
     if (result.hasErrors()) {
       throw new BrokenFileException();
     }
-    String[] snapshot = IOUtils.toString(
-        file.getFile().
-            getInputStream(), StandardCharsets.UTF_8).
-        split(System.lineSeparator());
+    String fileContent;
+    try (InputStream ioFile = file.getFile().getInputStream()) {
+      fileContent = IOUtils.toString(ioFile, StandardCharsets.UTF_8);
+    }
+    String[] snapshot = fileContent.split(System.lineSeparator());
     for (int i = 1; i < snapshot.length; i++) {
       String[] entry = snapshot[i].split(",");
       if (!entryValidation.isValid(entry)) {

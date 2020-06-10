@@ -28,6 +28,7 @@
     <commons-validator>1.6</commons-validator>
     <commons_fileupload>1.4</commons_fileupload>
     <apache_commons>3.10</apache_commons>
+    <style>1.8</style>
   </properties>
   <dependencies>
     <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
@@ -125,6 +126,14 @@
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/com.google.googlejavaformat/google-java-format -->
+    <dependency>
+      <groupId>com.google.googlejavaformat</groupId>
+      <artifactId>google-java-format</artifactId>
+      <version>${style}</version>
+    </dependency>
+
+
   </dependencies>
 
   <build>

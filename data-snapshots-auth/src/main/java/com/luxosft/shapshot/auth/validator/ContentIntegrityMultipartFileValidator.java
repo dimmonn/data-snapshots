@@ -1,6 +1,7 @@
 package com.luxosft.shapshot.auth.validator;
 
 import com.luxosft.shapshot.auth.annotations.FileIntegrity;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import javax.validation.ConstraintValidator;
@@ -22,7 +23,10 @@ public class ContentIntegrityMultipartFileValidator implements
   @Override
   @SneakyThrows
   public boolean isValid(MultipartFile file, ConstraintValidatorContext context) {
-    String snapshot = IOUtils.toString(file.getInputStream(), StandardCharsets.UTF_8);
+    String snapshot;
+    try (InputStream ioFile = file.getInputStream()) {
+      snapshot = IOUtils.toString(ioFile, StandardCharsets.UTF_8);
+    }
     String[] splitSnapshot = snapshot.split(System.lineSeparator());
     return Arrays.equals(splitSnapshot[0].split(","), acceptedContentContent);
   }
