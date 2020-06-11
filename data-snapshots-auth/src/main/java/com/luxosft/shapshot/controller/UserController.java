@@ -3,8 +3,6 @@ package com.luxosft.shapshot.controller;
 import com.luxosft.shapshot.annotations.SnapshotApiVersion;
 import com.luxosft.shapshot.model.AuthUser;
 import com.luxosft.shapshot.repository.AuthUserRepository;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;

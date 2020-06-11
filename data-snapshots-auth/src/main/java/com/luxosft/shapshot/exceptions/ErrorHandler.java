@@ -1,16 +1,9 @@
 package com.luxosft.shapshot.exceptions;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
+import java.util.Objects;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -31,7 +24,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
   public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
       MethodArgumentTypeMismatchException ex, WebRequest request) {
     String error =
-        ex.getName() + " should be of type " + ex.getRequiredType().getName();
+        ex.getName() + " should be of type " + Objects.requireNonNull(ex.getRequiredType()).getName();
     CustomErrorTemplate templateErrors =
         new CustomErrorTemplate(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
     return new ResponseEntity<>(

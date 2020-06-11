@@ -4,7 +4,6 @@ import com.luxosft.shapshot.annotations.SnapshotApiVersion;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import lombok.AllArgsConstructor;
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.servlet.mvc.condition.ConsumesRequestCondition;
 import org.springframework.web.servlet.mvc.condition.HeadersRequestCondition;
 import org.springframework.web.servlet.mvc.condition.ParamsRequestCondition;

@@ -1,6 +1,7 @@
 package com.luxosft.shapshot.exceptions;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +18,7 @@ public class CustomErrorTemplate {
   public CustomErrorTemplate(HttpStatus code, String message, String error) {
     this.code = code;
     this.message = message;
-    errors = Arrays.asList(error);
+    errors = Collections.singletonList(error);
   }
 
 }
