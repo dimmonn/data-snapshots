@@ -42,7 +42,7 @@
         this.getMeta();
       },
       getMeta: function () {
-        this.axios.get("http://localhost:8083/files/entries", {
+        this.axios.get("http://localhost:8083/v1/files/entries", {
           headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: 'Bearer ' + localStorage.getItem('jwt'),
@@ -78,7 +78,7 @@
         }
       },
       removeItem() {
-        this.axios.delete("http://localhost:8083/files/entries/" + this.number, {
+        this.axios.delete("http://localhost:8083/v1/files/entries/" + this.number, {
           headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: 'Bearer ' + localStorage.getItem('jwt'),
@@ -122,7 +122,7 @@
           console.error(evt);
         };
         formData.append('file', this.file);
-        this.axios.post('http://localhost:8083/files/upload-file',
+        this.axios.post('http://localhost:8083/v1/files/upload-file',
             formData,
             {
               headers: {

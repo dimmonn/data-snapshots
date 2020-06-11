@@ -2,8 +2,8 @@ package com.luxosft.shapshot.basic;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.luxosft.shapshot.auth.controller.FileUploadController;
-import com.luxosft.shapshot.auth.controller.UserController;
+import com.luxosft.shapshot.controller.FileUploadController;
+import com.luxosft.shapshot.controller.UserController;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;

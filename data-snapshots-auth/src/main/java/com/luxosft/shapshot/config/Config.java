@@ -1,7 +1,7 @@
 package com.luxosft.shapshot.config;
 
-import com.luxosft.shapshot.auth.validator.BasicDateValidator;
-import com.luxosft.shapshot.auth.validator.DateValidator;
+import com.luxosft.shapshot.validator.BasicDateValidator;
+import com.luxosft.shapshot.validator.DateValidator;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;

@@ -45,7 +45,7 @@
           });
 
         } else if (this.input.username !== "" && this.input.password !== "") {
-          this.axios.post('http://localhost:8083/users/sign-up', {
+          this.axios.post('http://localhost:8083/v1/users/sign-up', {
             username: this.input.username,
             password: this.input.password
           })

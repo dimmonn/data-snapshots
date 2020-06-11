@@ -1,9 +1,9 @@
 package com.luxosft.shapshot;
 
-import com.luxosft.shapshot.auth.controller.FileUploadControllerTest;
-import com.luxosft.shapshot.auth.controller.UserControllerTest;
-import com.luxosft.shapshot.auth.jwt.JWTAuthorizationFilterTest;
-import com.luxosft.shapshot.auth.validator.BasicDateValidatorTest;
+import com.luxosft.shapshot.controller.FileUploadControllerTest;
+import com.luxosft.shapshot.controller.UserControllerTest;
+import com.luxosft.shapshot.jwt.JWTAuthorizationFilterTest;
+import com.luxosft.shapshot.validator.BasicDateValidatorTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
