@@ -123,6 +123,37 @@ public class FileUploadControllerTest {
     );
   }
 
+  @Test
+  public void deleteByWrongIdTest() throws Exception {
+    uploadFileCall();
+    String id = "wrong";
+    String actual = mvc.perform(MockMvcRequestBuilders.delete("/files/entries/" + id)
+        .header("Authorization", token)
+        .contentType(MediaType.APPLICATION_JSON_VALUE))
+        .andExpect(status().isBadRequest()).andReturn().getResponse()
+        .getContentAsString(Charset.defaultCharset());
+    assertEquals(
+        "java.lang.NumberFormatException: For input string: " + "\"" + id + "\"", actual
+    );
+    System.out.println(actual);
+  }
+
+  @Test
+  public void deleteByNonExistingIdTest() throws Exception {
+    uploadFileCall();
+    int id = 11111;
+    String actual = mvc.perform(MockMvcRequestBuilders.delete("/files/entries/" + id)
+        .header("Authorization", token)
+        .contentType(MediaType.APPLICATION_JSON_VALUE))
+        .andExpect(status().isBadRequest()).andReturn().getResponse()
+        .getContentAsString(Charset.defaultCharset());
+    assertEquals(
+        "No class com.luxosft.shapshot.auth.model.Entry entity with id " + 11111 + " exists!",
+        actual
+    );
+    System.out.println(actual);
+  }
+
   private void initFileResources() throws IOException {
     try (InputStream ioFile = new FileInputStream("src/test/resources/test_upload_1.txt");
         InputStream ioLarge = new FileInputStream("src/test/resources/large_file.txt");
