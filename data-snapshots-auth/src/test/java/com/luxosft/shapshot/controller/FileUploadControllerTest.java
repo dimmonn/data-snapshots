@@ -1,7 +1,14 @@
 package com.luxosft.shapshot.controller;
 
-import static org.hamcrest.Matchers.isA;
 import static org.junit.Assert.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,6 +27,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -34,6 +42,7 @@ import org.springframework.web.util.NestedServletException;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@AutoConfigureRestDocs(outputDir = "target/docs")
 public class FileUploadControllerTest {
 
   @Autowired
@@ -58,7 +67,11 @@ public class FileUploadControllerTest {
         .contentType(MediaType.APPLICATION_JSON_VALUE)
         .content(body))
         .andExpect(status().isCreated()).andReturn();
-    ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.post("/login").content(body));
+    ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.post("/login").content(body))
+        .andDo(document("login", responseHeaders(
+            headerWithName("Authorization").description(
+                "The JWT RFC 7519 standard Token, ex: "
+                    + "Authorization: Bearer eyJ0eXAiOiJ...."))));
     token = resultActions.andReturn().getResponse().getHeader("Authorization");
   }
 
@@ -69,7 +82,30 @@ public class FileUploadControllerTest {
 
   @Test
   public void uploadFileTest() throws Exception {
-    String actual = uploadFileCall();
+    MockMultipartFile file =
+        new MockMultipartFile(
+            "file",
+            "test_upload_1.txt",
+            MediaType.TEXT_PLAIN_VALUE,
+            test_upload_1.getBytes(StandardCharsets.UTF_8));
+    String actual = mvc.perform(
+        multipart("/v1/files/upload-file")
+            .file(file)
+            .accept(MediaType.APPLICATION_JSON)
+            .header("Authorization", token))
+        .andDo(document("upload", requestParts(
+            partWithName("file").description("The file to upload")),
+            requestHeaders(headerWithName("Authorization").description(
+                "The JWT RFC 7519 standard Token, ex: "
+                    + "Authorization: Bearer eyJ0eXAiOiJ....")),
+            responseFields(fieldWithPath("[]").description("arrays of entries"),
+                fieldWithPath("[].id").description("PRIMARY_KEY of the entry"),
+                fieldWithPath("[].name").description("PRIMARY_KEY of the entry"),
+                fieldWithPath("[].description").description("DESCRIPTION of the entry"),
+                fieldWithPath("[].timestamp")
+                    .description("TIMESTAMP of the entry in the format of ISO-8601"))))
+        .andExpect(status().isCreated()).andReturn().getResponse()
+        .getContentAsString(Charset.defaultCharset());
     assertEquals(
         expected.replaceAll(
             System.lineSeparator(), ""
@@ -118,7 +154,18 @@ public class FileUploadControllerTest {
     String actual = mvc.perform(MockMvcRequestBuilders.delete("/v1//files/entries/1")
         .header("Authorization", token)
         .contentType(MediaType.TEXT_PLAIN_VALUE))
-        .andExpect(status().isOk()).andReturn().getResponse()
+        .andExpect(status().isOk())
+        .andDo(document("/v1//files/entries/{id}", requestHeaders(
+            headerWithName("Authorization").description(
+                "The JWT RFC 7519 standard Token, ex: "
+                    + "Authorization: Bearer eyJ0eXAiOiJ....")),
+            responseFields(fieldWithPath("id").description("PRIMARY_KEY of the entry")),
+            responseFields(fieldWithPath("name").description("NAME of the entry")),
+            responseFields(fieldWithPath("description").description("DESCRIPTION of the entry")),
+            responseFields(fieldWithPath("timestamp")
+                .description("TIMESTAMP of the entry in the format of ISO-8601"))
+        ))
+        .andReturn().getResponse()
         .getContentAsString(Charset.defaultCharset());
     assertEquals(
         test_after_delete_call.replaceAll(
