@@ -22,6 +22,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -133,14 +134,13 @@ public class FileUploadControllerTest {
             System.lineSeparator(), ""
         ).replaceAll(" ", ""), actual.replaceAll(" ", "")
     );
-    System.out.println(actual);
   }
 
   @Test
   public void deleteByNonExistingIdTest() throws Exception {
     uploadFileCall();
     int id = 11111;
-    String actual = mvc.perform(MockMvcRequestBuilders.delete("/v1//files/entries/" + id)
+    String actual = mvc.perform(MockMvcRequestBuilders.delete("/v1/files/entries/" + id)
         .header("Authorization", token)
         .contentType(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isBadRequest()).andReturn().getResponse()
@@ -149,7 +149,6 @@ public class FileUploadControllerTest {
         "No class com.luxosft.shapshot.model.Entry entity with id " + 11111 + " exists!",
         actual
     );
-    System.out.println(actual);
   }
 
   private void initFileResources() throws IOException {

@@ -35,7 +35,6 @@ public class UserControllerTest {
     String contentAsString = mvc.perform(MockMvcRequestBuilders.post("/v1/users/sign-up")
         .contentType(MediaType.APPLICATION_JSON_VALUE)
         .content(body)).andReturn().getResponse().getContentAsString();
-    System.out.println(contentAsString);
   }
   @After
   public void tearDown() {
