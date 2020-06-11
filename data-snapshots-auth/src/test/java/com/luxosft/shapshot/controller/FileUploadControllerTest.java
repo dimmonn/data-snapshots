@@ -29,6 +29,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.util.NestedServletException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -46,6 +47,8 @@ public class FileUploadControllerTest {
   private String DELETE_WRONG_ID;
   @Autowired
   private AuthUserRepository authUserRepository;
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   @Before
   public void before() throws Exception {
@@ -138,17 +141,16 @@ public class FileUploadControllerTest {
 
   @Test
   public void deleteByNonExistingIdTest() throws Exception {
+    thrown.expect(EmptyResultDataAccessException.class);
+    thrown.expectMessage("No class com.luxosft.shapshot.model.Entry entity with id 11111 exists!");
     uploadFileCall();
     int id = 11111;
-    String actual = mvc.perform(MockMvcRequestBuilders.delete("/v1/files/entries/" + id)
-        .header("Authorization", token)
-        .contentType(MediaType.APPLICATION_JSON_VALUE))
-        .andExpect(status().isBadRequest()).andReturn().getResponse()
-        .getContentAsString(Charset.defaultCharset());
-    assertEquals(
-        "No class com.luxosft.shapshot.model.Entry entity with id " + 11111 + " exists!",
-        actual
-    );
+    try {
+      mvc.perform(MockMvcRequestBuilders.delete("/v1/files/entries/" + id)
+          .header("Authorization", token));
+    } catch (NestedServletException e) {
+      throw (Exception) e.getCause();
+    }
   }
 
   private void initFileResources() throws IOException {
