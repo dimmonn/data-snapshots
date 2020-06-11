@@ -4,6 +4,7 @@ import com.luxosft.shapshot.annotations.SnapshotApiVersion;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import lombok.AllArgsConstructor;
+import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.mvc.condition.ConsumesRequestCondition;
 import org.springframework.web.servlet.mvc.condition.HeadersRequestCondition;
 import org.springframework.web.servlet.mvc.condition.ParamsRequestCondition;
@@ -20,7 +21,7 @@ public class SnapshotApiVersionRequestMappingHandlerMapping extends RequestMappi
   private String apiPrefix;
 
   @Override
-  protected RequestMappingInfo getMappingForMethod(Method method, Class<?> handlerType) {
+  protected RequestMappingInfo getMappingForMethod(@NonNull Method method, @NonNull Class<?> handlerType) {
     RequestMappingInfo info = super.getMappingForMethod(method, handlerType);
     if (info == null) {
       return null;
