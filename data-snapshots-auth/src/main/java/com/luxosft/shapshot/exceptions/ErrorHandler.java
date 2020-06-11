@@ -15,16 +15,22 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class ErrorHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(BrokenFileException.class)
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public String handleCustomException(BrokenFileException e) {
-    return e.getMessage();
+  public ResponseEntity<Object> handleCustomException(BrokenFileException e) {
+    String error =
+        e.getMessage();
+    CustomErrorTemplate templateErrors =
+        new CustomErrorTemplate(HttpStatus.BAD_REQUEST, String.valueOf(HttpStatus.BAD_REQUEST), error);
+    return new ResponseEntity<>(
+        templateErrors, new HttpHeaders(), templateErrors.getCode());
+
   }
 
-  @ExceptionHandler({ MethodArgumentTypeMismatchException.class })
+  @ExceptionHandler({MethodArgumentTypeMismatchException.class})
   public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
       MethodArgumentTypeMismatchException ex, WebRequest request) {
     String error =
-        ex.getName() + " should be of type " + Objects.requireNonNull(ex.getRequiredType()).getName();
+        ex.getName() + " should be of type " + Objects.requireNonNull(ex.getRequiredType())
+            .getName();
     CustomErrorTemplate templateErrors =
         new CustomErrorTemplate(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
     return new ResponseEntity<>(

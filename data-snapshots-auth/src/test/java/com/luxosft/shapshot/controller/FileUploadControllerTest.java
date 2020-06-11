@@ -89,7 +89,9 @@ public class FileUploadControllerTest {
             .file(file)
             .accept(MediaType.APPLICATION_JSON)
             .header("Authorization", token)).
-        andExpect(content().string("File is broken."));
+        andExpect(content().
+            string(
+                "{\"code\":\"BAD_REQUEST\",\"message\":\"400 BAD_REQUEST\",\"errors\":[\"File is broken.\"]}"));
   }
 
   @Test
@@ -104,7 +106,9 @@ public class FileUploadControllerTest {
             .file(file)
             .accept(MediaType.APPLICATION_JSON)
             .header("Authorization", token)).
-        andExpect(content().string("File is broken."));
+        andExpect(content().
+            string(
+                "{\"code\":\"BAD_REQUEST\",\"message\":\"400 BAD_REQUEST\",\"errors\":[\"File is broken.\"]}"));
   }
 
 
