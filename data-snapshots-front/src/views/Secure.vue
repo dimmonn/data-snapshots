@@ -114,7 +114,15 @@
       submitFile() {
         let formData = new FormData();
         let reader = new FileReader();
-        reader.readAsText(this.file, "UTF-8");
+        try {
+          reader.readAsText(this.file, "UTF-8");
+        }
+        catch(err) {
+          console.log("wrong file format");
+          this.$toast.error("wrong file format");
+          return;
+        }
+
         reader.onload = evt => {
           this.text = evt.target.result;
         };
@@ -146,8 +154,7 @@
           );
         })
         .catch(error => {
-          console.log('FAILURE!!');
-          console.log(error);
+          this.$toast.error("wrong file format");
           this.file = '';
         });
       }
