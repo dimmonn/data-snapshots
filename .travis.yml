@@ -1,6 +1,10 @@
+os:
+  linux
 language: java
 jdk:
   - openjdk8
+before_install:
+  - sudo apt-get install build-essential
 test:
   provider: script
   script: make test
