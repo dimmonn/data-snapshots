@@ -103,7 +103,9 @@ public class FileUploadControllerTest {
                 fieldWithPath("[].name").description("PRIMARY_KEY of the entry"),
                 fieldWithPath("[].description").description("DESCRIPTION of the entry"),
                 fieldWithPath("[].timestamp")
-                    .description("TIMESTAMP of the entry in the format of ISO-8601"))))
+                    .description("TIMESTAMP of the entry in the format of ISO-8601"))
+            )
+        )
         .andExpect(status().isCreated()).andReturn().getResponse()
         .getContentAsString(Charset.defaultCharset());
     assertEquals(
@@ -155,16 +157,6 @@ public class FileUploadControllerTest {
         .header("Authorization", token)
         .contentType(MediaType.TEXT_PLAIN_VALUE))
         .andExpect(status().isOk())
-        .andDo(document("/v1//files/entries/{id}", requestHeaders(
-            headerWithName("Authorization").description(
-                "The JWT RFC 7519 standard Token, ex: "
-                    + "Authorization: Bearer eyJ0eXAiOiJ....")),
-            responseFields(fieldWithPath("id").description("PRIMARY_KEY of the entry")),
-            responseFields(fieldWithPath("name").description("NAME of the entry")),
-            responseFields(fieldWithPath("description").description("DESCRIPTION of the entry")),
-            responseFields(fieldWithPath("timestamp")
-                .description("TIMESTAMP of the entry in the format of ISO-8601"))
-        ))
         .andReturn().getResponse()
         .getContentAsString(Charset.defaultCharset());
     assertEquals(

@@ -42,7 +42,7 @@ public class UserControllerTest {
     mvc.perform(MockMvcRequestBuilders.post("/v1/users/sign-up")
         .contentType(MediaType.APPLICATION_JSON_VALUE)
         .content(body))
-        .andDo(document("/v1/users/sign-up"))
+        .andDo(document("sign-up"))
         .andReturn().getResponse().getContentAsString();
   }
 
