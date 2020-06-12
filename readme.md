@@ -27,6 +27,7 @@ Host: server_ip:server_port
 
 {"username":"user","password":"pass"}
 ```
+**Expected Response**
 ```text
 HTTP/1.1 200 OK
 Vary: Origin
@@ -41,15 +42,13 @@ Expires: 0
 X-Frame-Options: DENY
 ```
 
-
-
 Name         |Description
 ------------ | -------------
 Authorization | The JWT RFC 7519 standard Token, ex: Authorization: Bearer eyJ0eXAiOiJ....
 
 ```text
 
-$ curl 'http://localhost:8080/v1/files/upload-file' -i -X POST \
+$ curl 'http://server_ip:server_port/v1/files/upload-file' -i -X POST \
     -H 'Content-Type: multipart/form-data;charset=UTF-8' \
     -H 'Accept: application/json' \
     -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNTkyMzc0NTQwfQ.I9roM1CV4O9eBNy0WgXXcp2Atx4wmqmoWA7Ar5-Y0jRiRoCsqw70aLHfM0QOenhow7PmOvRiUdU8_KiTgpe08Q' \
@@ -82,6 +81,7 @@ PRIMARY_KEY,NAME,DESCRIPTION,UPDATED_TIMESTAMP
 
 --6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm--
 ```
+**Expected Response** 
 
 ```text
 ----
@@ -97,19 +97,17 @@ Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
 Content-Length: 822
-
-[{"id":1,"name":"name1","description":"descr1","timestamp":"2016-07-31T12:15:00.000+00:00"}]
+[
+  {
+    "id": 1,
+    "name": "name1",
+    "description": "descr1",
+    "timestamp": "2016-07-31T12:15:00.000+00:00"
+  }
+] 
 ----
 ```
 
-```text
-
-$ http --form POST 'http://localhost:8080/v1/files/upload-file' \
-    'file'@'test_upload_1.txt' \
-    'Accept:application/json' \
-    'Authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNTkyMzc0NTQwfQ.I9roM1CV4O9eBNy0WgXXcp2Atx4wmqmoWA7Ar5-Y0jRiRoCsqw70aLHfM0QOenhow7PmOvRiUdU8_KiTgpe08Q'
-
-```
 
 Part | Description
 --- | -------------
@@ -119,7 +117,7 @@ Path | Type | Description
 ---- | ---- | -------
 [] | Array | arrays of entries
 [].id | Number | PRIMARY_KEY of the entry
-[].name | String | PRIMARY_KEY of the entry
+[].name | String | name of the entry
 [].description | String | DESCRIPTION of the entry
 [].timestamp |String | TIMESTAMP of the entry in the format of ISO-8601
 
