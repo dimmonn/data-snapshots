@@ -3,6 +3,4 @@ jdk:
   - openjdk8
 test:
   provider: script
-  script: "make test"
-  on:
-    tags: true
+  script: make test
