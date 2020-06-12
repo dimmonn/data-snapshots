@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/dimmonn/data-snapshots.svg?branch=master)](https://travis-ci.com/dimmonn/data-snapshots)
 # **Before To Start**
 ```text
 brew install make
