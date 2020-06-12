@@ -15,8 +15,6 @@ public class BasicDateValidatorTest {
 
   @Autowired
   private BasicDateValidator basicDateValidator;
-  @Autowired
-  private SimpleDateFormat simpleDateFormat;
 
   @Test
   public void isValid() {

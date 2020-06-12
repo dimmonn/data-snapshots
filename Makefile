@@ -12,3 +12,6 @@ stop:
 
 clear:
 	docker-compose down --rmi all --remove-orphans
+
+test:
+	mvn -f data-snapshots-auth/pom.xml test
