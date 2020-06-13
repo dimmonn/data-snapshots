@@ -5,6 +5,7 @@ before_install:
   - sudo apt-get install build-essential
 script:
   make test
-addons:
-  apt:
-    update: true
+deploy:
+  provider: heroku
+  api_key: 2c3ae93a-a1a2-4763-ace1-1f21eb2e0f23
+  app: app-test
