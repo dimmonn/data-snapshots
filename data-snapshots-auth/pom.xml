@@ -136,10 +136,7 @@
       <artifactId>google-java-format</artifactId>
       <version>${style}</version>
     </dependency>
-
-
   </dependencies>
-
   <build>
     <finalName>data-snapshots-auth</finalName>
     <plugins>
