@@ -1,3 +1,10 @@
+language: generic
+cache:
+  - bundler
+jdk:
+  - openjdk8
+before_install:
+  - sudo apt-get install build-essential
 deploy:
   - provider: script
     script: bash scripts/deploy.sh staging
