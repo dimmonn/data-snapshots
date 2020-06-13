@@ -5,12 +5,12 @@ matrix:
         - openjdk8
       before_install:
         - sudo apt-get install build-essential
-      before_script:
+      script:
         - make test
     - language: node_js
       node_js:
         - 4.8
-      before_install:
+      script:
         - make install
 deploy:
   provider: heroku
