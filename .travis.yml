@@ -8,6 +8,7 @@ before_install:
 before_script:
 - make setup
 script:
+- make install
 - make test
 deploy:
   provider: heroku
