@@ -12,10 +12,10 @@ matrix:
         - 4.8
       before_install:
         - make install
-    deploy:
-      provider: heroku
-      api_key:
-        secure: sg4btnce5toPpz/7L4AKVSDgQP8qmxbljN5Zj0lQTndplUAlY8cN5BDTC6RKBTVrqEfx53GNFK1WC2QmgYsrPHTqWxRAUz1mmp2H+bDOcYIVKj+74hcs6WQhPtbl7GxTjZTVUiKb9IooCpOuABMp0OOunRJoBpsKEuhvvOPVw/3IJ4ClX6uXVW5DF8WhQ/dBG1fzTAAYUIMxeuiQcXeB4nb6hY5EIayznfamItrxWAn9fa15G6PQKZ2G9QKS4vS1P3+MIRUXKo/hBHEoRPbJS2cLznInoLZzV5FooEiLHGnZiqPHb1bUZJIFwr/pknM7oyGI8c8HQ3WjNX7f9qiosPPPmwEM5b/6Lc/YttAS310B0jJ9QWEHnvnJ05zxXSiXN9NcPzVQIyIGjSEutRTESSSM5GGkveriOck4Fl1rRHDXiJoUZyoHeuSlweipwKx0DF7AXZGRGmC5VFiNQgO2SaFUKs3sVYIp3Tw26k13lB17pYDARlKm3U6wmaRV+nZO6Z17uuvh1MyDBj74IrF0RFQ4S/i1eoqmprA9jy7Cec23epdjlT1sSjywYGgfEP1saRcc8b4ffvSR4AybJAUtON+LT38xgM5Gneh2MYr0kUPkgZUil6Jszc27+Asj7cSYxXZVrNXmI1PmweqqgzUXRU6FpCgYl22lMp0+yPMR+kE=
-      app: data-snapshots
-      on:
-        repo: dimmonn/data-snapshots
+deploy:
+  provider: heroku
+  api_key:
+    secure: sg4btnce5toPpz/7L4AKVSDgQP8qmxbljN5Zj0lQTndplUAlY8cN5BDTC6RKBTVrqEfx53GNFK1WC2QmgYsrPHTqWxRAUz1mmp2H+bDOcYIVKj+74hcs6WQhPtbl7GxTjZTVUiKb9IooCpOuABMp0OOunRJoBpsKEuhvvOPVw/3IJ4ClX6uXVW5DF8WhQ/dBG1fzTAAYUIMxeuiQcXeB4nb6hY5EIayznfamItrxWAn9fa15G6PQKZ2G9QKS4vS1P3+MIRUXKo/hBHEoRPbJS2cLznInoLZzV5FooEiLHGnZiqPHb1bUZJIFwr/pknM7oyGI8c8HQ3WjNX7f9qiosPPPmwEM5b/6Lc/YttAS310B0jJ9QWEHnvnJ05zxXSiXN9NcPzVQIyIGjSEutRTESSSM5GGkveriOck4Fl1rRHDXiJoUZyoHeuSlweipwKx0DF7AXZGRGmC5VFiNQgO2SaFUKs3sVYIp3Tw26k13lB17pYDARlKm3U6wmaRV+nZO6Z17uuvh1MyDBj74IrF0RFQ4S/i1eoqmprA9jy7Cec23epdjlT1sSjywYGgfEP1saRcc8b4ffvSR4AybJAUtON+LT38xgM5Gneh2MYr0kUPkgZUil6Jszc27+Asj7cSYxXZVrNXmI1PmweqqgzUXRU6FpCgYl22lMp0+yPMR+kE=
+  app: data-snapshots
+  on:
+    repo: dimmonn/data-snapshots
