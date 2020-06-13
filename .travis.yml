@@ -11,6 +11,7 @@ matrix:
       node_js:
         - 4.8
       script:
+        - make setup
         - make install
 deploy:
   provider: heroku
