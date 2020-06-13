@@ -1,18 +1,18 @@
 language: java
 cache:
-  - bundler
+- bundler
 jdk:
-  - openjdk8
+- openjdk8
 before_install:
-  - sudo apt-get install build-essential
+- sudo apt-get install build-essential
 before_script:
-  - make setup
+- make setup
 script:
-  - make test
+- make test
 deploy:
   provider: heroku
   api_key:
-    secure: "cNB1XFHaUQ9r2/424LCABspL1gG1kfKZd1XGu7LTej29hUb3Qs39ELesGLf2GqsKnc8jTpS893i9tZOLEMCn1zy6HIYFgr9hPJea8WcHvolxayhCWUgEDLfRS27ANgEjIL/jrwGh7a+OTvgzTJjjCvZodLNHh6BF5bW8xo34OfEW94fz76jP80tUV6I+TAJ7hGkzJ5eXhfyJPxUugmbP7WpBBCazux3jWS4gTFGu8JhCog9olj/I4GPnOX/GMhDUG9cD87CmLi47s+dNgrO2jHzk6weX70wcq+NZmTPqUteYEsqb0OC6T3ADKjk7KkYr5NQcdDS48kvTmNZOls9TORviFro/EWJ8nUCu53tO7nNigH+eItXi5lChCRVAhr3pS5KE1/u8fB6kOyXL/MIGIvePTiCGDeg+CnrxxvUruI92odU+2Ly6ZKy22PYrE/RsjGhJA0xrxEON5f6OmvPn3hMUsbsceOmv26Q57ptzY/9b+BKnvRNtOHu7Nq96CncU1VDWZWQAJ5Owj1B78ikSz4veQAfzqcGF//mvmpGxybSB/flyQk3SLCpZ1ZE3RTrJRCgblJv9jrLdrIJNmn1CEIuGCKGMXjwFkCJG3dnXu01uPpAJmhESFDVBWNmaJbyxrrYwybT14VeX2EZ8zCHDzn1k8VrCQzjrc+TQ9swVjes="
+    secure: sg4btnce5toPpz/7L4AKVSDgQP8qmxbljN5Zj0lQTndplUAlY8cN5BDTC6RKBTVrqEfx53GNFK1WC2QmgYsrPHTqWxRAUz1mmp2H+bDOcYIVKj+74hcs6WQhPtbl7GxTjZTVUiKb9IooCpOuABMp0OOunRJoBpsKEuhvvOPVw/3IJ4ClX6uXVW5DF8WhQ/dBG1fzTAAYUIMxeuiQcXeB4nb6hY5EIayznfamItrxWAn9fa15G6PQKZ2G9QKS4vS1P3+MIRUXKo/hBHEoRPbJS2cLznInoLZzV5FooEiLHGnZiqPHb1bUZJIFwr/pknM7oyGI8c8HQ3WjNX7f9qiosPPPmwEM5b/6Lc/YttAS310B0jJ9QWEHnvnJ05zxXSiXN9NcPzVQIyIGjSEutRTESSSM5GGkveriOck4Fl1rRHDXiJoUZyoHeuSlweipwKx0DF7AXZGRGmC5VFiNQgO2SaFUKs3sVYIp3Tw26k13lB17pYDARlKm3U6wmaRV+nZO6Z17uuvh1MyDBj74IrF0RFQ4S/i1eoqmprA9jy7Cec23epdjlT1sSjywYGgfEP1saRcc8b4ffvSR4AybJAUtON+LT38xgM5Gneh2MYr0kUPkgZUil6Jszc27+Asj7cSYxXZVrNXmI1PmweqqgzUXRU6FpCgYl22lMp0+yPMR+kE=
   app: data-snapshots
   on:
     repo: dimmonn/data-snapshots
