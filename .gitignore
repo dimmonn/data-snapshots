@@ -1,0 +1,4 @@
+/data-snapshots-auth/target/
+/out/
+*.iml
+.idea
