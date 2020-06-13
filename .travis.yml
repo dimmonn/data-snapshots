@@ -7,7 +7,7 @@ before_install:
   - sudo apt-get install build-essential
 before_script:
   - make setup
-test:
+script:
   - make test
 deploy:
   provider: heroku
