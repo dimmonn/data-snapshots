@@ -11,4 +11,4 @@ clear:
 test:
 	mvn -f data-snapshots-auth/pom.xml test
 build:
-	docker-compose build
+	docker-compose create
