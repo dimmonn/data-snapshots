@@ -1,10 +1,5 @@
 
 package com.luxosft.shapshot.jwt;
-
-import static com.luxosft.shapshot.jwt.SecurityConstraints.HEADER_STRING;
-import static com.luxosft.shapshot.jwt.SecurityConstraints.SECRET;
-import static com.luxosft.shapshot.jwt.SecurityConstraints.TOKEN_PREFIX;
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,18 +15,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
-
-  public JWTAuthorizationFilter(AuthenticationManager authManager) {
+  private final SecurityConstraints securityConstraints;
+  public JWTAuthorizationFilter(SecurityConstraints securityConstraints, AuthenticationManager authManager) {
     super(authManager);
+    this.securityConstraints=securityConstraints;
   }
 
   @Override
   protected void doFilterInternal(HttpServletRequest req,
       HttpServletResponse res,
       FilterChain chain) throws IOException, ServletException {
-    String header = req.getHeader(HEADER_STRING.getConstraint());
+    String header = req.getHeader(securityConstraints.getHeaderString());
 
-    if (header == null || !header.startsWith(TOKEN_PREFIX.getConstraint())) {
+    if (header == null || !header.startsWith(securityConstraints.getTokenPrefix())) {
       chain.doFilter(req, res);
       return;
     }
@@ -41,11 +37,11 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
   }
 
   private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-    String token = request.getHeader(HEADER_STRING.getConstraint());
+    String token = request.getHeader(securityConstraints.getHeaderString());
     if (token != null) {
-      String user = JWT.require(Algorithm.HMAC512(SECRET.getConstraint().getBytes()))
+      String user = JWT.require(Algorithm.HMAC512(securityConstraints.getSecret().getBytes()))
           .build()
-          .verify(token.replace(TOKEN_PREFIX.getConstraint(), ""))
+          .verify(token.replace(securityConstraints.getTokenPrefix(), ""))
           .getSubject();
       if (user != null) {
         return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());

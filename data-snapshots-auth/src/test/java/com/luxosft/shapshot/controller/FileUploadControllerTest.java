@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.env.Environment;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -46,6 +47,8 @@ import org.springframework.web.util.NestedServletException;
 public class FileUploadControllerTest {
 
   @Autowired
+  private Environment env;
+  @Autowired
   private MockMvc mvc;
   private String token;
   private String test_upload_1;
@@ -54,25 +57,33 @@ public class FileUploadControllerTest {
   private byte[] wrongType;
   private String expected;
   private String DELETE_WRONG_ID;
+  private final String body = "{\"username\":\"user\",\"password\":\"pass\"}";
+  private final String urlSignUp = "/v1/users/sign-up";
+  private final String loginUrl = "/login";
+  private String authorization;
+  private final String brokenFileResponse = "{\"code\":\"BAD_REQUEST\",\"message\":\"400 BAD_REQUEST\",\"errors\":[\"File is broken.\"]}";
+
   @Autowired
   private AuthUserRepository authUserRepository;
   @Rule
   public ExpectedException thrown = ExpectedException.none();
+  private String uploadFileUrl = "/v1/files/upload-file";
+  private String allEntriesUrl = "/v1//files/entries/";
 
   @Before
   public void before() throws Exception {
     initFileResources();
-    String body = "{\"username\":\"user\",\"password\":\"pass\"}";
-    mvc.perform(MockMvcRequestBuilders.post("/v1/users/sign-up")
+    authorization = env.getProperty("auth_header");
+    mvc.perform(MockMvcRequestBuilders.post(urlSignUp)
         .contentType(MediaType.APPLICATION_JSON_VALUE)
         .content(body))
         .andExpect(status().isCreated()).andReturn();
-    ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.post("/login").content(body))
+    ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.post(loginUrl).content(body))
         .andDo(document("login", responseHeaders(
-            headerWithName("Authorization").description(
+            headerWithName(authorization).description(
                 "The JWT RFC 7519 standard Token, ex: "
                     + "Authorization: Bearer eyJ0eXAiOiJ...."))));
-    token = resultActions.andReturn().getResponse().getHeader("Authorization");
+    token = resultActions.andReturn().getResponse().getHeader(authorization);
   }
 
   @After
@@ -89,13 +100,13 @@ public class FileUploadControllerTest {
             MediaType.TEXT_PLAIN_VALUE,
             test_upload_1.getBytes(StandardCharsets.UTF_8));
     String actual = mvc.perform(
-        multipart("/v1/files/upload-file")
+        multipart(uploadFileUrl)
             .file(file)
             .accept(MediaType.APPLICATION_JSON)
-            .header("Authorization", token))
+            .header(authorization, token))
         .andDo(document("upload", requestParts(
             partWithName("file").description("The file to upload")),
-            requestHeaders(headerWithName("Authorization").description(
+            requestHeaders(headerWithName(authorization).description(
                 "The JWT RFC 7519 standard Token, ex: "
                     + "Authorization: Bearer eyJ0eXAiOiJ....")),
             responseFields(fieldWithPath("[]").description("arrays of entries"),
@@ -123,13 +134,13 @@ public class FileUploadControllerTest {
             "large_file.txt",
             MediaType.TEXT_PLAIN_VALUE, large_file);
     mvc.perform(
-        multipart("/v1/files/upload-file")
+        multipart(uploadFileUrl)
             .file(file)
             .accept(MediaType.APPLICATION_JSON)
-            .header("Authorization", token)).
+            .header(authorization, token)).
         andExpect(content().
             string(
-                "{\"code\":\"BAD_REQUEST\",\"message\":\"400 BAD_REQUEST\",\"errors\":[\"File is broken.\"]}"));
+                brokenFileResponse));
   }
 
   @Test
@@ -140,21 +151,21 @@ public class FileUploadControllerTest {
             "wrong_type_file.pdf",
             MediaType.TEXT_PLAIN_VALUE, wrongType);
     mvc.perform(
-        multipart("/v1/files/upload-file")
+        multipart(uploadFileUrl)
             .file(file)
             .accept(MediaType.APPLICATION_JSON)
-            .header("Authorization", token)).
+            .header(authorization, token)).
         andExpect(content().
             string(
-                "{\"code\":\"BAD_REQUEST\",\"message\":\"400 BAD_REQUEST\",\"errors\":[\"File is broken.\"]}"));
+                brokenFileResponse));
   }
 
 
   @Test
   public void deleteByIdTest() throws Exception {
     uploadFileCall();
-    String actual = mvc.perform(MockMvcRequestBuilders.delete("/v1//files/entries/1")
-        .header("Authorization", token)
+    String actual = mvc.perform(MockMvcRequestBuilders.delete(allEntriesUrl+"1")
+        .header(authorization, token)
         .contentType(MediaType.TEXT_PLAIN_VALUE))
         .andExpect(status().isOk())
         .andReturn().getResponse()
@@ -170,8 +181,8 @@ public class FileUploadControllerTest {
   public void deleteByWrongIdTest() throws Exception {
     uploadFileCall();
     String id = "wrong";
-    String actual = mvc.perform(MockMvcRequestBuilders.delete("/v1//files/entries/" + id)
-        .header("Authorization", token)
+    String actual = mvc.perform(MockMvcRequestBuilders.delete(allEntriesUrl + id)
+        .header(authorization, token)
         .contentType(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isBadRequest()).andReturn().getResponse()
         .getContentAsString(Charset.defaultCharset());
@@ -189,8 +200,8 @@ public class FileUploadControllerTest {
     uploadFileCall();
     int id = 11111;
     try {
-      mvc.perform(MockMvcRequestBuilders.delete("/v1/files/entries/" + id)
-          .header("Authorization", token));
+      mvc.perform(MockMvcRequestBuilders.delete(allEntriesUrl + id)
+          .header(authorization, token));
     } catch (NestedServletException e) {
       throw (Exception) e.getCause();
     }
@@ -231,10 +242,10 @@ public class FileUploadControllerTest {
             MediaType.TEXT_PLAIN_VALUE,
             test_upload_1.getBytes(StandardCharsets.UTF_8));
     return mvc.perform(
-        multipart("/v1/files/upload-file")
+        multipart(uploadFileUrl)
             .file(file)
             .accept(MediaType.APPLICATION_JSON)
-            .header("Authorization", token))
+            .header(authorization, token))
         .andExpect(status().isCreated()).andReturn().getResponse()
         .getContentAsString(Charset.defaultCharset());
   }

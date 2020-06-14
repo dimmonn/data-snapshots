@@ -60,13 +60,8 @@
           )
         })
         .catch(error => {
-          if (typeof error.data !== 'undefined' && error.data.message.localeCompare(
-              "Access Denied")) {
-            this.$router.push('/login');
-          } else {
-            this.$toast.error("unexpected error happened");
-          }
-
+          console.log(error);
+          this.$router.push('/login');
         });
       },
       handleFileUpload() {
@@ -117,8 +112,7 @@
         let reader = new FileReader();
         try {
           reader.readAsText(this.file, "UTF-8");
-        }
-        catch(err) {
+        } catch (err) {
           this.$toast.error("wrong file format");
           return;
         }

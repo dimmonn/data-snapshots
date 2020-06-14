@@ -1,7 +1,6 @@
 
 package com.luxosft.shapshot.jwt;
 
-import static com.luxosft.shapshot.jwt.SecurityConstraints.SIGN_UP_URL;
 
 import com.luxosft.shapshot.service.UserDetailsServiceBasic;
 import org.springframework.http.HttpMethod;
@@ -16,20 +15,22 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class WebSecurity extends WebSecurityConfigurerAdapter {
   private final UserDetailsServiceBasic userDetailsService;
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-  public WebSecurity(UserDetailsServiceBasic userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+  private final SecurityConstraints securityConstraints;
+  public WebSecurity(UserDetailsServiceBasic userDetailsService,
+      BCryptPasswordEncoder bCryptPasswordEncoder, SecurityConstraints securityConstraints) {
     this.userDetailsService = userDetailsService;
     this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    this.securityConstraints = securityConstraints;
   }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable().authorizeRequests()
-        .antMatchers(HttpMethod.POST, SIGN_UP_URL.getConstraint()).permitAll()
+        .antMatchers(HttpMethod.POST, securityConstraints.getSignUpUrl()).permitAll()
         .anyRequest().authenticated()
         .and()
-        .addFilter(new JWTAuthFilter(authenticationManager()))
-        .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+        .addFilter(new JWTAuthFilter(securityConstraints,authenticationManager()))
+        .addFilter(new JWTAuthorizationFilter(securityConstraints,authenticationManager()))
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
   }
 

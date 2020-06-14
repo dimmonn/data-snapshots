@@ -35,11 +35,12 @@ public class UserControllerTest {
   private AuthUserRepository authUserRepository;
   @Autowired
   private BCryptPasswordEncoder bCryptPasswordEncoder;
+  private final String body = "{\"username\":\"user\",\"password\":\"pass\"}";
+  private final String urlSignUp = "/v1/users/sign-up";
 
   @Before
   public void setUp() throws Exception {
-    String body = "{\"username\":\"user\",\"password\":\"pass\"}";
-    mvc.perform(MockMvcRequestBuilders.post("/v1/users/sign-up")
+    mvc.perform(MockMvcRequestBuilders.post(urlSignUp)
         .contentType(MediaType.APPLICATION_JSON_VALUE)
         .content(body))
         .andDo(document("sign-up"))

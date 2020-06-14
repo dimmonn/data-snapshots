@@ -20,17 +20,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static com.luxosft.shapshot.jwt.SecurityConstraints.EXPIRATION_TIME;
-import static com.luxosft.shapshot.jwt.SecurityConstraints.HEADER_STRING;
-import static com.luxosft.shapshot.jwt.SecurityConstraints.SECRET;
-import static com.luxosft.shapshot.jwt.SecurityConstraints.TOKEN_PREFIX;
-
 public class JWTAuthFilter extends UsernamePasswordAuthenticationFilter {
 
   private final AuthenticationManager authenticationManager;
+  private final SecurityConstraints securityConstraints;
 
-  public JWTAuthFilter(AuthenticationManager authenticationManager) {
+  public JWTAuthFilter(SecurityConstraints securityConstraints, AuthenticationManager authenticationManager) {
     this.authenticationManager = authenticationManager;
+    this.securityConstraints=securityConstraints;
   }
 
   @SneakyThrows
@@ -58,8 +55,10 @@ public class JWTAuthFilter extends UsernamePasswordAuthenticationFilter {
     String token = JWT.create()
         .withSubject(((User) auth.getPrincipal()).getUsername())
         .withExpiresAt(
-            new Date(System.currentTimeMillis() + Long.parseLong(EXPIRATION_TIME.getConstraint())))
-        .sign(HMAC512(SECRET.getConstraint().getBytes()));
-    res.addHeader(HEADER_STRING.getConstraint(), TOKEN_PREFIX.getConstraint() + token);
+            new Date(System.currentTimeMillis() + Long
+                .parseLong(securityConstraints.getExpirationTime())))
+        .sign(HMAC512(securityConstraints.getSecret().getBytes()));
+    res.addHeader(securityConstraints.getHeaderString(),
+        securityConstraints.getTokenPrefix() + token);
   }
 }

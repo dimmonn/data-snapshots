@@ -1,5 +1,6 @@
 package com.luxosft.shapshot.config;
 
+import com.luxosft.shapshot.jwt.SecurityConstraints;
 import com.luxosft.shapshot.validator.BasicDateValidator;
 import com.luxosft.shapshot.validator.DateValidator;
 import java.text.SimpleDateFormat;
@@ -7,13 +8,14 @@ import java.util.Arrays;
 import java.util.Collections;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-
+@PropertySource({"classpath:security.properties"})
 @Configuration
 public class Config {
 
@@ -57,5 +59,10 @@ public class Config {
   @Bean
   public DateValidator dateValidator() {
     return new BasicDateValidator(simpleDateFormat);
+  }
+
+  @Bean
+  public SecurityConstraints getSecConstraints(){
+    return new SecurityConstraints();
   }
 }
