@@ -21,7 +21,8 @@ public class SnapshotApiVersionRequestMappingHandlerMapping extends RequestMappi
   private String apiPrefix;
 
   @Override
-  protected RequestMappingInfo getMappingForMethod(@NonNull Method method, @NonNull Class<?> handlerType) {
+  protected RequestMappingInfo getMappingForMethod(@NonNull Method method,
+      @NonNull Class<?> handlerType) {
     RequestMappingInfo info = super.getMappingForMethod(method, handlerType);
     if (info == null) {
       return null;
@@ -52,8 +53,7 @@ public class SnapshotApiVersionRequestMappingHandlerMapping extends RequestMappi
       patterns[i] = apiPrefix + values[i];
     }
     return new RequestMappingInfo(
-        new PatternsRequestCondition(patterns, getUrlPathHelper(), getPathMatcher(),
-            useSuffixPatternMatch(), useTrailingSlashMatch(), getFileExtensions()),
+        new PatternsRequestCondition(patterns),
         new RequestMethodsRequestCondition(),
         new ParamsRequestCondition(),
         new HeadersRequestCondition(),
