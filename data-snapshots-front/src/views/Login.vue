@@ -36,11 +36,8 @@
     methods: {
 
       login() {
-        window.rr = this;
-
         if (this.input.username !== "" && this.input.password !== "") {
           this.axios.post('http://localhost:8083/login',
-
               {
                 username: this.input.username,
                 password: this.input.password
@@ -50,14 +47,10 @@
                 }
               })
           .then(response => {
-            console.log(response);
-            window.tt = response;
             localStorage.setItem('jwt', response.headers.authorization);
-
             if (localStorage.getItem('jwt') != null) {
               this.$emit("authenticated", true);
               this.$router.replace({name: "Secure"});
-              window.rr.message = response.status;
             }
           })
           .catch((error) => {
@@ -67,7 +60,6 @@
           });
 
         } else {
-          console.log("Username and or password must not be empty");
           this.$toast.error("Username and or password must not be empty", {
             timeout: 4000
           });

@@ -53,13 +53,11 @@
             this.$router.push('/login');
           })
           .catch((error) => {
-            console.log(error);
             this.$toast.error("user or password is already registered", {
               timeout: 4000
             });
           });
         } else {
-          console.log("Username and or password must not be empty");
           this.$toast.error("Username and or password must not be empty", {
             timeout: 4000
           });

@@ -30,8 +30,6 @@
 
   export default {
     created() {
-      App.data().authenticated=true;
-      console.log('Secure component has been created!');
       this.mounted();
     },
     components: {
@@ -50,6 +48,10 @@
           }
         })
         .then(response => {
+          if (localStorage.getItem('jwt') != null) {
+            this.$emit("authenticated", true);
+            this.$router.replace({name: "Secure"});
+          }
           let tmp = response.data;
           tmp.forEach(elem => {
                 let item = [elem.id, elem.name, elem.description, elem.timestamp];
@@ -103,7 +105,6 @@
               "Access Denied") {
             this.$router.push('/login');
           } else if (typeof typeof error.response !== 'undefined') {
-            console.log("dd  " + error.response.data.message);
             this.$toast.error(error.response.data.message, {
               timeout: 4000
             });
@@ -118,7 +119,6 @@
           reader.readAsText(this.file, "UTF-8");
         }
         catch(err) {
-          console.log("wrong file format");
           this.$toast.error("wrong file format");
           return;
         }
@@ -141,8 +141,6 @@
 
             }
         ).then(result => {
-          console.log('SUCCESS!!');
-          console.log(result.data);
           this.params.data = [
             ['Id', 'Name', 'Description', 'Timestamp']
           ];
