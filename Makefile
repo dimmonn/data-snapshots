@@ -9,6 +9,6 @@ stop:
 clear:
 	docker-compose down --rmi all --remove-orphans
 test:
-	mvn -f data-snapshots-auth/pom.xml test
+	mvn -f data-snapshots-auth/pom.xml test && bash <(curl -s https://codecov.io/bash)
 build:
 	docker-compose create
