@@ -13,8 +13,6 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode
-@ToString
 public class AuthUser {
 
   @Id
