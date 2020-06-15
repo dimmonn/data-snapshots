@@ -1,5 +1,6 @@
 package com.luxosft.shapshot;
 
+import com.luxosft.shapshot.basic.ApplicationTest;
 import com.luxosft.shapshot.controller.FileUploadControllerTest;
 import com.luxosft.shapshot.controller.UserControllerTest;
 import com.luxosft.shapshot.jwt.JWTAuthorizationFilterTest;
@@ -10,6 +11,7 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+    ApplicationTest.class,
     BasicEntryValidationTest.class,
     FileUploadControllerTest.class,
     UserControllerTest.class,
