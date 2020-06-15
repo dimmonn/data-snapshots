@@ -2,12 +2,10 @@ package com.luxosft.shapshot.exceptions;
 
 import java.util.Collections;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
-@AllArgsConstructor
 public class CustomErrorTemplate {
 
   private HttpStatus code;

@@ -23,5 +23,6 @@ public class BasicEntryValidationTest {
     assertFalse(basicEntryValidation.isValid(new String[]{"1","name2","","31.07.2016 14:15 GMT+02:00"}));
     assertFalse(basicEntryValidation.isValid(new String[]{"1","","descr3","31.07.2016 14:15 GMT+02:00"}));
     assertFalse(basicEntryValidation.isValid(new String[]{"1","","","31.07.2016 14:15 GMT+02:00"}));
+    assertFalse(basicEntryValidation.isValid(new String[]{"1","",""}));
   }
 }
