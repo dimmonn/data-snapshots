@@ -5,6 +5,8 @@ jdk:
   - openjdk8
 before_install:
   - sudo apt-get install build-essential
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 deploy:
   - provider: script
     script: bash scripts/deploy.sh staging
