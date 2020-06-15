@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/dimmonn/data-snapshots.svg?branch=master)](https://travis-ci.com/dimmonn/data-snapshots)
+[![codecov](https://codecov.io/gh/dimmonn/data-snapshots/branch/master/graph/badge.svg)](https://codecov.io/gh/dimmonn/data-snapshots)
 # **Before To Start**
 ```text
 brew install make
