@@ -1,12 +1,16 @@
 
 package com.luxosft.shapshot.jwt;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class SecurityConstraints {
 
   @Value("${secret}")
