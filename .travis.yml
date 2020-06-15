@@ -1,4 +1,7 @@
 language: generic
+env:
+  global:
+    - CODECOV_TOKEN=:uuid-repo-token
 cache:
   - bundler
 jdk:
