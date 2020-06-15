@@ -29,6 +29,7 @@
     <commons_fileupload>1.4</commons_fileupload>
     <apache_commons>3.10</apache_commons>
     <style>1.8</style>
+    <jacoco>0.8.5</jacoco>
   </properties>
   <dependencies>
     <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
@@ -147,6 +148,26 @@
           <execution>
             <goals>
               <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <!-- attached to Maven test phase -->
+          <execution>
+            <id>report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
             </goals>
           </execution>
         </executions>
