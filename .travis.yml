@@ -9,6 +9,6 @@ jdk:
 before_install:
   - sudo apt-get install build-essential
 after_script:
-  - bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash) -t `echo $CODECOV_TOKEN`
 script:
   - bash scripts/deploy.sh
