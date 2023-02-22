@@ -26,7 +26,7 @@
     <jackson>2.11.0</jackson>
     <json>20200518</json>
     <commons-validator>1.6</commons-validator>
-    <commons_fileupload>1.4</commons_fileupload>
+    <commons_fileupload>1.5</commons_fileupload>
     <apache_commons>3.10</apache_commons>
     <style>1.8</style>
     <jacoco>0.8.5</jacoco>
