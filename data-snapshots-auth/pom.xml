@@ -24,7 +24,7 @@
     <java-jwt>3.10.3</java-jwt>
     <ioutils>2.7</ioutils>
     <jackson>2.11.0</jackson>
-    <json>20200518</json>
+    <json>20230227</json>
     <commons-validator>1.6</commons-validator>
     <commons_fileupload>1.4</commons_fileupload>
     <apache_commons>3.10</apache_commons>
